@@ -7,6 +7,7 @@ Jenkins High Availability setup
 1 HAProxy
 
 # Master
+```
 We shall install samba on CentOs 7
     sudo yum install samba samba-client
 start the services
@@ -85,3 +86,4 @@ Example: mount point
 //172.31.28.122/jenkins_admin /root/.jenkins/jobs cifs uid=jenkins,gid=jenkins,credentials=/home/jenkins/.smbcredentials  0 0
 #//172.31.28.122/jenkins_admin /home/jenkins/jenkins/ cifs uid=jenkins,gid=jenkins,credentials=/home/jenkins/.smbcredentials  0 0
 UUID=0a56d206-2a6d-46e6-b65f-11b7052f72cf     /           xfs    defaults,noatime  1   1
+```
