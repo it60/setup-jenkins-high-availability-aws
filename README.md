@@ -90,3 +90,7 @@ UUID=0a56d206-2a6d-46e6-b65f-11b7052f72cf     /           xfs    defaults,noatim
 
 # Slave
 Follow the same process as detailed for primary jenkins master. Please ensure the admin user/password for both the instances (primary and secondary) are same.
+
+
+# Reference
+https://skalable.net/blogs/technology/jenkins_ha.html
