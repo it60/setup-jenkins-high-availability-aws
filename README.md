@@ -46,15 +46,16 @@ configure samba shares
 restart the services
     sudo systemctl restart smb.service
     sudo systemctl restart nmb.service
-    
-Shared disk
-2Install openjdk/jre on CentOs 7
-   34  sudo yum install java-1.8.0-openjdk-devel
-   35  java -version
 
-3Create a user "jenkins", create a password when prompted
-   36  useradd jenkins
-   37  passwd jenkins
+INSTALL JENKINS:
+
+Install openjdk/jre on CentOs 7
+   sudo yum install java-1.8.0-openjdk-devel
+   java -version
+
+Create a user "jenkins", create a password when prompted
+   sudo useradd jenkins
+   sudo passwd jenkins
    
 Create a directory jenkins under /home/jenkins
     mkdir -p /home/jenkins/jenkins
@@ -92,13 +93,13 @@ UUID=0a56d206-2a6d-46e6-b65f-11b7052f72cf     /           xfs    defaults,noatim
 Follow the same process as detailed for primary jenkins master. Please ensure the admin user/password for both the instances (primary and secondary) are same.
 Note: skip installing smbshare server 
 ```
-2Install openjdk/jre on CentOs 7
-   34  sudo yum install java-1.8.0-openjdk-devel
-   35  java -version
+Install openjdk/jre on CentOs 7
+   sudo yum install java-1.8.0-openjdk-devel
+   java -version
 
-3Create a user "jenkins", create a password when prompted
-   36  sudo useradd jenkins
-   37  sudo passwd jenkins
+Create a user "jenkins", create a password when prompted
+   sudo useradd jenkins
+   sudo passwd jenkins
    
 Create a directory jenkins under /home/jenkins
     mkdir -p /home/jenkins/jenkins
@@ -124,7 +125,7 @@ Start the Jenkins instance and note down the hash-key for creating the first adm
 Launch the web-ui from a browser http://<this_server_ip>:8080
 Use the hash-key from the console log to create the user and password for the admin user
 
-Issue:
+ISSUE:
 mount error(115): Operation now in progress smb sambashare
 Solution: Open security group inbound for smb service port 139 and 445
 
@@ -168,17 +169,16 @@ vi /etc/haproxy/haproxy.cfg
 ```
 
 # On the secondary jenkins master: write a cron-job to reload the configuration.
- vi /home/jenkins/jenkins/jenkins_credentials
-
+```
+vi /home/jenkins/jenkins/jenkins_credentials
     admin:<password_of_admin_user>
-    chmod 600 /home/jenkins/jenkins/jenkins_credentials
-      cd /home/jenkins/jenkins
-    wget http://<jenkins_secondary_server_ip>:8080/jnlpJars/jenkins-cli.jar
-    
-    vi /home/jenkins/jenkins/jenkins-reload.sh
-   #!/bin/sh
-    #java -jar /home/jenkins/jenkins/jenkins-cli.jar -s http://13.213.62.139:8080/ -auth @/home/jenkins/jenkins/jenkins_credentials reload-configuration
-    
+
+chmod 600 /home/jenkins/jenkins/jenkins_credentials
+cd /home/jenkins/jenkins
+wget http://<jenkins_secondary_server_ip>:8080/jnlpJars/jenkins-cli.jar
+
+vi /home/jenkins/jenkins/jenkins-reload.sh
+    #!/bin/sh
     # check if primary is up or not
     java -jar /home/jenkins/jenkins/jenkins-cli.jar -s http://52.77.238.245:8080 -auth @/home/jenkins/jenkins/jenkins_credentials list-jobs
     PRIMARY_STATUS=$?
@@ -194,12 +194,12 @@ vi /etc/haproxy/haproxy.cfg
         echo "Primary is down"
         echo "Skipping reload"
     fi
+
 Change permissions
     chmod 700 /home/jenkins/jenkins/jenkins-reload.sh
 Configure cron daemon
     vi /etc/cron.d/jenkins-reload
-
     */1 * * * * jenkins /bin/bash /home/jenkins/jenkins/jenkins-reload.sh
-
+```
 # Reference
 https://skalable.net/blogs/technology/jenkins_ha.html
