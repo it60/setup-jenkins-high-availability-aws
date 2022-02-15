@@ -166,6 +166,8 @@ vi /etc/haproxy/haproxy.cfg
     backend bk_jenkins
         server jenkins1 <primary_jenkins_ip>:8080 check
         server jenkins2 <secondary_jenkins_ip>:8080 check backup
+        
+systemctl start haproxy
 ```
 
 # On the secondary jenkins master: write a cron-job to reload the configuration.
